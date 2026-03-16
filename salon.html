@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glow Kathmandu — Unisex Hair Salon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* Light theme tokens */
+  --bg:#FAFAF7;--bg2:#F3F1EC;--bg3:#ECEAE3;
+  --sur:#FFFFFF;--sur2:#F8F6F1;
+  --bor:#E2DDD4;--bor2:rgba(139,109,56,0.2);
+  --ink:#1A1814;--ink2:#4A4540;--ink3:#8A837A;
+  --red:#B5451B;--red2:#D4582A;--red-lt:#FDF0EB;
+  --gold:#8B6D38;--gold2:#C49A3C;--gold-lt:#FBF5E8;
+  --grn:#2D6A4F;
+  --fd:'Playfair Display',serif;--fs:'DM Serif Display',serif;--fn:'Plus Jakarta Sans',sans-serif;
+  --radius:4px;--shadow:0 2px 24px rgba(26,24,20,.08);--shadow-lg:0 8px 48px rgba(26,24,20,.12);
+}
+[data-theme="dark"]{
+  --bg:#0F0E0C;--bg2:#161410;--bg3:#1E1C17;
+  --sur:#1A1814;--sur2:#211F1A;
+  --bor:#2E2B24;--bor2:rgba(196,154,60,0.2);
+  --ink:#F0EDE6;--ink2:#B8B2A8;--ink3:#6B6560;
+  --red:#D4582A;--red2:#E06B3D;--red-lt:rgba(181,69,27,.12);
+  --gold:#C49A3C;--gold2:#D4AA4C;--gold-lt:rgba(196,154,60,.1);
+  --grn:#52B788;
+  --shadow:0 2px 24px rgba(0,0,0,.3);--shadow-lg:0 8px 48px rgba(0,0,0,.4);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--fn);overflow-x:hidden;transition:background .3s,color .3s}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+img{display:block}
+
+/* PROGRESS */
+#prog{position:fixed;top:0;left:0;height:3px;z-index:9999;background:linear-gradient(90deg,var(--red),var(--gold2));width:0;transition:width .08s}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.2rem 4rem;display:flex;align-items:center;justify-content:space-between;transition:all .35s}
+nav.scrolled{padding:.85rem 4rem;background:var(--sur);border-bottom:1px solid var(--bor);box-shadow:var(--shadow)}
+.logo{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+.logo-mark{width:38px;height:38px;background:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-mark svg{width:20px;height:20px;fill:white}
+.logo-text{display:flex;flex-direction:column;line-height:1.1}
+.logo-name{font-family:var(--fd);font-size:1rem;font-weight:700;color:var(--ink);letter-spacing:.04em}
+.logo-sub{font-family:var(--fn);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ink3)}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{font-family:var(--fn);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);text-decoration:none;transition:color .2s;cursor:pointer;font-weight:500}
+.nav-links a:hover{color:var(--red)}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.theme-btn{width:36px;height:36px;border:1px solid var(--bor);background:var(--sur);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;border-radius:var(--radius);color:var(--ink2)}
+.theme-btn:hover{border-color:var(--red);color:var(--red)}
+.theme-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5}
+.nav-cta{font-family:var(--fn);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--red);border:none;padding:.65rem 1.6rem;cursor:pointer;font-weight:600;transition:all .25s;border-radius:var(--radius)}
+.nav-cta:hover{background:var(--red2);transform:translateY(-1px);box-shadow:0 6px 18px rgba(181,69,27,.3)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{width:22px;height:1.5px;background:var(--ink);display:block;transition:all .3s}
+.mob-menu{position:fixed;inset:0;z-index:490;background:var(--sur);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.8rem;transform:translateX(100%);transition:transform .45s cubic-bezier(.77,0,.18,1)}
+.mob-menu.open{transform:translateX(0)}
+.mob-menu a{font-family:var(--fd);font-size:1.8rem;color:var(--ink);text-decoration:none;cursor:pointer;transition:color .2s}
+.mob-menu a:hover{color:var(--red)}
+
+/* HERO */
+.hero{position:relative;height:100vh;min-height:650px;display:flex;align-items:center;overflow:hidden}
+.hero-img-wrap{position:absolute;inset:0}
+.hero-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.hero-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,14,12,.82) 0%,rgba(15,14,12,.5) 55%,rgba(15,14,12,.15) 100%)}
+[data-theme="dark"] .hero-img-wrap::after{background:linear-gradient(90deg,rgba(5,4,3,.9) 0%,rgba(5,4,3,.6) 55%,rgba(5,4,3,.2) 100%)}
+.hero-content{position:relative;z-index:2;padding:0 4rem;max-width:700px}
+.hero-pill{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--fn);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:.4rem 1rem;margin-bottom:1.6rem;backdrop-filter:blur(8px);animation:fadeUp .8s .2s both}
+.hero-pill span{width:6px;height:6px;background:var(--gold2);border-radius:50%;flex-shrink:0}
+h1.hero-title{font-family:var(--fd);font-size:clamp(3rem,6.5vw,5.8rem);font-weight:700;line-height:1.04;color:#fff;margin-bottom:1.4rem;animation:fadeUp .8s .4s both}
+h1.hero-title em{font-style:italic;color:var(--gold2);font-weight:400}
+.hero-desc{font-family:var(--fn);font-size:1.05rem;color:rgba(255,255,255,.7);line-height:1.7;margin-bottom:2.5rem;max-width:440px;font-weight:300;animation:fadeUp .8s .6s both}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .8s .8s both}
+.btn-primary{font-family:var(--fn);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--red);border:2px solid var(--red);padding:.9rem 2.2rem;cursor:pointer;font-weight:600;transition:all .3s;border-radius:var(--radius)}
+.btn-primary:hover{background:var(--red2);border-color:var(--red2);transform:translateY(-2px);box-shadow:0 10px 28px rgba(181,69,27,.4)}
+.btn-secondary{font-family:var(--fn);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:transparent;border:2px solid rgba(255,255,255,.4);padding:.9rem 2.2rem;cursor:pointer;font-weight:600;transition:all .3s;border-radius:var(--radius)}
+.btn-secondary:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+.hero-badges{position:absolute;right:4rem;bottom:4rem;z-index:2;display:flex;flex-direction:column;gap:.8rem;animation:fadeIn 1s 1.2s both}
+.hero-badge{background:rgba(255,255,255,.12);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.2);padding:.75rem 1.2rem;display:flex;align-items:center;gap:.8rem}
+.hero-badge-num{font-family:var(--fd);font-size:1.5rem;font-weight:700;color:#fff;line-height:1}
+.hero-badge-lbl{font-family:var(--fn);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+.scroll-hint{position:absolute;bottom:2.5rem;left:4rem;z-index:2;display:flex;align-items:center;gap:.8rem;animation:fadeIn 1s 1.5s both}
+.scroll-line{width:40px;height:1px;background:rgba(255,255,255,.4)}
+.scroll-hint span{font-family:var(--fn);font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* MARQUEE BAND */
+.band{background:var(--red);padding:.7rem 0;overflow:hidden;white-space:nowrap}
+.band-inner{display:inline-flex;animation:marquee 22s linear infinite}
+.band-item{font-family:var(--fn);font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.9);font-weight:600;padding:0 2.5rem;display:flex;align-items:center;gap:2.5rem}
+.band-item::after{content:'';width:4px;height:4px;background:rgba(255,255,255,.5);border-radius:50%}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* LAYOUT */
+.section{padding:6.5rem 4rem}.section-alt{background:var(--bg2)}
+.inner{max-width:1200px;margin:0 auto}
+.sec-eyebrow{font-family:var(--fn);font-size:.62rem;letter-spacing:.32em;text-transform:uppercase;color:var(--red);font-weight:600;margin-bottom:.9rem;display:flex;align-items:center;gap:.7rem}
+.sec-eyebrow::before{content:'';width:22px;height:2px;background:var(--red)}
+h2.sec-title{font-family:var(--fd);font-size:clamp(2rem,3.8vw,3rem);font-weight:700;color:var(--ink);line-height:1.1;margin-bottom:.9rem}
+h2.sec-title em{font-style:italic;font-weight:400;color:var(--red)}
+.sec-body{font-family:var(--fn);font-size:.95rem;color:var(--ink3);line-height:1.75;max-width:500px;font-weight:300}
+.divider{height:1px;background:var(--bor)}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.rv.on{opacity:1;transform:none}
+.rvl{opacity:0;transform:translateX(-24px);transition:opacity .7s ease,transform .7s ease}
+.rvl.on{opacity:1;transform:none}
+.rvr{opacity:0;transform:translateX(24px);transition:opacity .7s ease,transform .7s ease}
+.rvr.on{opacity:1;transform:none}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--bor);background:var(--sur)}
+.stat{padding:2.5rem 1.5rem;text-align:center;border-right:1px solid var(--bor);transition:background .25s}
+.stat:last-child{border-right:none}.stat:hover{background:var(--bg2)}
+.stat-num{font-family:var(--fd);font-size:2.6rem;font-weight:700;color:var(--red);line-height:1}
+.stat-suf{font-size:1.5rem;color:var(--red)}
+.stat-label{font-family:var(--fn);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin-top:.4rem}
+
+/* WHY US — horizontal strip */
+.why-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--bor);margin-top:3rem}
+.why-card{padding:2.2rem;border-right:1px solid var(--bor);background:var(--sur);transition:background .25s}
+.why-card:last-child{border-right:none}.why-card:hover{background:var(--bg2)}
+.why-icon{width:44px;height:44px;background:var(--red-lt);display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem;border-radius:var(--radius)}
+.why-icon svg{width:20px;height:20px;stroke:var(--red);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.why-title{font-family:var(--fd);font-size:.95rem;font-weight:600;color:var(--ink);margin-bottom:.5rem}
+.why-text{font-family:var(--fn);font-size:.8rem;color:var(--ink3);line-height:1.7;font-weight:300}
+
+/* SERVICES — editorial grid */
+.svc-layout{display:grid;grid-template-columns:1fr 2fr;gap:4rem;align-items:start}
+.svc-sticky{position:sticky;top:7rem}
+.svc-tabs{display:flex;gap:0;border:1px solid var(--bor);margin-top:2rem;overflow:hidden}
+.svc-tab{font-family:var(--fn);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);background:var(--sur);border:none;padding:.7rem 1.2rem;cursor:pointer;transition:all .2s;flex:1;font-weight:500}
+.svc-tab.active,.svc-tab:hover{background:var(--red);color:#fff}
+.svc-cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bor)}
+.svc-card{background:var(--sur);padding:1.8rem;transition:all .3s;position:relative;overflow:hidden}
+.svc-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--red);transform:scaleY(0);transition:transform .3s;transform-origin:bottom}
+.svc-card:hover::before{transform:scaleY(1)}.svc-card:hover{background:var(--bg2)}
+.svc-badge{position:absolute;top:1.2rem;right:1.2rem;font-family:var(--fn);font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;background:var(--red-lt);color:var(--red);padding:.22rem .6rem;font-weight:600;border-radius:var(--radius)}
+.svc-icon-wrap{width:44px;height:44px;background:var(--bg2);display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem;border-radius:var(--radius);transition:background .3s}
+.svc-card:hover .svc-icon-wrap{background:var(--red-lt)}
+.svc-icon-wrap svg{width:20px;height:20px;stroke:var(--ink2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
+.svc-card:hover .svc-icon-wrap svg{stroke:var(--red)}
+.svc-name{font-family:var(--fd);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:.45rem}
+.svc-desc{font-family:var(--fn);font-size:.78rem;color:var(--ink3);line-height:1.65;margin-bottom:1.2rem;font-weight:300}
+.svc-footer{display:flex;align-items:center;justify-content:space-between;padding-top:1rem;border-top:1px solid var(--bor)}
+.svc-price{font-family:var(--fd);font-size:1rem;font-weight:700;color:var(--red)}
+.svc-dur{font-family:var(--fn);font-size:.62rem;letter-spacing:.14em;color:var(--ink3);text-transform:uppercase}
+
+/* BEFORE/AFTER + GALLERY */
+.gallery-intro{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bor)}
+.gal-item{position:relative;overflow:hidden;cursor:pointer}
+.gal-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.25,.46,.45,.94)}
+.gal-item:hover img{transform:scale(1.06)}
+.gal-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(15,14,12,.72) 0%,transparent 50%);opacity:0;transition:opacity .35s;display:flex;align-items:flex-end;padding:1.3rem}
+.gal-item:hover .gal-overlay{opacity:1}
+.gal-tag{font-family:var(--fn);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;font-weight:600}
+.gal-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bor)}
+.gal-tall{grid-row:span 2}
+.gal-item-h{height:260px}.gal-item-h.tall{height:100%}
+
+/* BOOKING */
+.book-layout{display:grid;grid-template-columns:1.1fr 1fr;gap:0;border:1px solid var(--bor)}
+.book-left{padding:4rem;background:var(--ink);color:#fff;position:relative;overflow:hidden}
+.book-left::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border:1px solid rgba(255,255,255,.06);border-radius:50%}
+.book-left::after{content:'';position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;border:1px solid rgba(255,255,255,.06);border-radius:50%}
+[data-theme="dark"] .book-left{background:var(--bg3)}
+.book-eyebrow{font-family:var(--fn);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold2);font-weight:600;margin-bottom:1.2rem}
+.book-title{font-family:var(--fd);font-size:2.4rem;font-weight:700;color:#fff;line-height:1.1;margin-bottom:1.4rem}
+.book-title em{font-style:italic;font-weight:400;color:var(--gold2)}
+.book-desc{font-family:var(--fn);font-size:.88rem;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:2.5rem;font-weight:300}
+.book-info-item{display:flex;align-items:flex-start;gap:.9rem;margin-bottom:1.3rem}
+.book-info-icon{width:36px;height:36px;min-width:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;border-radius:var(--radius)}
+.book-info-icon svg{width:16px;height:16px;stroke:var(--gold2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.book-info-label{font-family:var(--fn);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.2rem}
+.book-info-val{font-family:var(--fn);font-size:.85rem;color:rgba(255,255,255,.82);font-weight:300;line-height:1.5}
+.book-right{padding:3.5rem;background:var(--sur)}
+.form-head{font-family:var(--fd);font-size:1.4rem;font-weight:700;color:var(--ink);margin-bottom:2rem}
+.f-row2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.fg{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.9rem}
+.fl{font-family:var(--fn);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-weight:600}
+.fi,.fsel{background:var(--bg2);border:1px solid var(--bor);color:var(--ink);padding:.75rem 1rem;font-family:var(--fn);font-size:.85rem;font-weight:300;outline:none;transition:border-color .25s,background .25s;width:100%;appearance:none;border-radius:var(--radius)}
+.fi::placeholder{color:var(--ink3)}.fi:focus,.fsel:focus{border-color:var(--red);background:var(--sur)}
+.fsel option{background:var(--sur);color:var(--ink)}
+.book-submit{width:100%;font-family:var(--fn);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#fff;background:var(--red);border:none;padding:1.05rem;cursor:pointer;font-weight:600;margin-top:.6rem;transition:all .3s;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;gap:.7rem}
+.book-submit:hover{background:var(--red2);box-shadow:0 8px 24px rgba(181,69,27,.35);transform:translateY(-1px)}
+.book-submit svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#book-success{display:none;text-align:center;padding:2.5rem 0}
+
+/* TESTIMONIALS */
+.testi-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1.5rem}
+.testi-wrap{overflow:hidden}
+.testi-track{display:flex;gap:1.4rem;transition:transform .55s cubic-bezier(.25,.46,.45,.94)}
+.testi-card{min-width:calc(33.333% - .95rem);background:var(--sur);border:1px solid var(--bor);padding:2rem;flex-shrink:0;transition:box-shadow .3s}
+.testi-card:hover{box-shadow:var(--shadow-lg)}
+.testi-stars{color:var(--gold2);font-size:.85rem;letter-spacing:.06em;margin-bottom:1rem}
+.testi-text{font-family:var(--fn);font-size:.88rem;color:var(--ink2);line-height:1.75;margin-bottom:1.5rem;font-weight:300}
+.testi-author{display:flex;align-items:center;gap:.85rem}
+.testi-avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--bor)}
+.testi-name{font-family:var(--fd);font-size:.88rem;font-weight:600;color:var(--ink)}
+.testi-role{font-family:var(--fn);font-size:.65rem;color:var(--ink3);margin-top:2px}
+.testi-service{display:inline-block;font-family:var(--fn);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;background:var(--red-lt);color:var(--red);padding:.2rem .55rem;border-radius:var(--radius);margin-top:.4rem;font-weight:600}
+.arr-btns{display:flex;gap:.5rem}
+.arr-btn{width:42px;height:42px;border:1px solid var(--bor);background:var(--sur);color:var(--ink2);font-size:1rem;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;border-radius:var(--radius)}
+.arr-btn:hover{background:var(--red);border-color:var(--red);color:#fff}
+.dots-row{display:flex;gap:.5rem;justify-content:center;margin-top:1.8rem}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--bor);cursor:pointer;transition:all .3s;border:none}
+.dot.active{background:var(--red);width:20px;border-radius:3px}
+
+/* GALLERY */
+.gal-masonry{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto;gap:4px}
+.gm-item{position:relative;overflow:hidden;cursor:pointer;background:var(--bg3)}
+.gm-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.25,.46,.45,.94)}
+.gm-item:hover img{transform:scale(1.07)}
+.gm-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(15,14,12,.7),transparent 50%);opacity:0;transition:opacity .35s;display:flex;align-items:flex-end;padding:1rem}
+.gm-item:hover .gm-overlay{opacity:1}
+.gm-label{font-family:var(--fn);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;font-weight:600}
+.gm-span2{grid-column:span 2}
+.gm-h1{height:200px}.gm-h2{height:200px}.gm-h3{height:200px}.gm-h4{height:404px}
+
+/* INSTAGRAM */
+.ig-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.ig-item{position:relative;overflow:hidden;aspect-ratio:1;cursor:pointer;background:var(--bg3)}
+.ig-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.ig-item:hover img{transform:scale(1.1)}
+.ig-overlay{position:absolute;inset:0;background:rgba(15,14,12,.68);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;opacity:0;transition:opacity .3s}
+.ig-item:hover .ig-overlay{opacity:1}
+.ig-count{font-family:var(--fd);font-size:1.1rem;font-weight:700;color:#fff}
+.ig-label{font-family:var(--fn);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+
+/* CONTACT */
+.contact-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:4rem;align-items:start}
+.contact-item{display:flex;gap:1rem;margin-bottom:1.6rem}
+.c-iconbox{width:44px;height:44px;min-width:44px;background:var(--red-lt);display:flex;align-items:center;justify-content:center;border-radius:var(--radius)}
+.c-iconbox svg{width:18px;height:18px;stroke:var(--red);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.c-lbl{font-family:var(--fn);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-weight:600;margin-bottom:.2rem}
+.c-val{font-family:var(--fn);font-size:.88rem;color:var(--ink2);line-height:1.55;font-weight:300}
+.map-wrap{border:1px solid var(--bor);overflow:hidden;height:380px;border-radius:var(--radius)}
+.map-wrap iframe{width:100%;height:100%;border:none}
+.wa-btn{display:inline-flex;align-items:center;gap:.7rem;font-family:var(--fn);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:#25D366;border:none;padding:.8rem 1.7rem;cursor:pointer;font-weight:600;transition:all .3s;margin-top:1rem;border-radius:var(--radius)}
+.wa-btn:hover{background:#1ebe57;transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,211,102,.3)}
+.wa-btn svg{width:18px;height:18px;fill:#fff}
+
+/* FOOTER */
+footer{background:var(--ink);color:rgba(255,255,255,.75);padding:5rem 4rem 2.5rem}
+[data-theme="dark"] footer{background:var(--bg2);border-top:1px solid var(--bor)}
+.foot-grid{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:4rem;margin-bottom:4rem}
+.foot-logo-name{font-family:var(--fd);font-size:1.1rem;font-weight:700;color:#fff;letter-spacing:.04em}
+.foot-logo-sub{font-family:var(--fn);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:3px}
+.foot-desc{font-family:var(--fn);font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.8;margin-top:1rem;font-weight:300;max-width:250px}
+.foot-title{font-family:var(--fn);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:1.3rem;font-weight:600}
+.foot-links{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.foot-links a{font-family:var(--fn);font-size:.8rem;color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s;cursor:pointer;font-weight:300}
+.foot-links a:hover{color:#fff}
+.foot-divider{height:1px;background:rgba(255,255,255,.08);margin-bottom:2rem}
+.foot-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.foot-copy{font-family:var(--fn);font-size:.68rem;color:rgba(255,255,255,.3);letter-spacing:.06em}
+.foot-socials{display:flex;gap:.6rem}
+.foot-social{width:36px;height:36px;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s;border-radius:var(--radius)}
+.foot-social svg{width:16px;height:16px;stroke:rgba(255,255,255,.45);fill:none;stroke-width:1.5;transition:stroke .25s}
+.foot-social:hover{border-color:var(--red);background:var(--red)}.foot-social:hover svg{stroke:#fff}
+.news-row{display:flex;gap:.6rem;margin-top:.8rem}
+.news-in{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff;padding:.6rem .85rem;font-family:var(--fn);font-size:.78rem;outline:none;transition:border-color .2s;flex:1;border-radius:var(--radius)}
+.news-in::placeholder{color:rgba(255,255,255,.25)}.news-in:focus{border-color:var(--red)}
+.news-btn{background:var(--red);border:none;color:#fff;padding:.6rem 1rem;cursor:pointer;font-family:var(--fn);font-size:.68rem;font-weight:600;transition:background .2s;border-radius:var(--radius)}
+.news-btn:hover{background:var(--red2)}
+
+/* FLOATING */
+.float-wa{position:fixed;bottom:2rem;right:2rem;z-index:400;width:54px;height:54px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.45);cursor:pointer;border:none;transition:transform .25s}
+.float-wa:hover{transform:scale(1.1)}.float-wa svg{width:28px;height:28px;fill:#fff}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--ink);color:#fff;font-family:var(--fn);font-size:.75rem;letter-spacing:.1em;padding:.85rem 1.8rem;z-index:9999;transition:transform .4s cubic-bezier(.175,.885,.32,1.275);font-weight:500;white-space:nowrap;pointer-events:none;border-radius:var(--radius);box-shadow:var(--shadow-lg)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.lightbox{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.93);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.lightbox.open{opacity:1;pointer-events:all}
+.lightbox img{max-width:90vw;max-height:85vh;object-fit:contain}
+.lb-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:1px solid rgba(255,255,255,.2);color:#fff;width:40px;height:40px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--fn);font-size:1.1rem;transition:all .25s;border-radius:var(--radius)}
+.lb-close:hover{border-color:var(--red);background:var(--red)}
+
+/* RESPONSIVE */
+@media(max-width:1100px){nav,.section,footer{padding-left:2.5rem;padding-right:2.5rem}nav.scrolled{padding-left:2.5rem;padding-right:2.5rem}.svc-layout{grid-template-columns:1fr;gap:2.5rem}.svc-sticky{position:static}.foot-grid{grid-template-columns:1fr 1fr;gap:2.5rem}.stats-row{grid-template-columns:repeat(2,1fr)}.stat{border-bottom:1px solid var(--bor)}.book-layout{grid-template-columns:1fr}.ig-grid{grid-template-columns:repeat(3,1fr)}.gal-masonry{grid-template-columns:repeat(2,1fr)}.gm-h4{height:200px}.gm-span2{grid-column:span 1}}
+@media(max-width:768px){.nav-links,.nav-cta,.theme-btn{display:none}.hamburger{display:flex}nav{padding:.9rem 1.5rem}nav.scrolled{padding:.8rem 1.5rem}.section{padding:4rem 1.5rem}footer{padding:4rem 1.5rem 2rem}.hero-content{padding:0 1.5rem;max-width:100%}.hero-badges{display:none}.scroll-hint{left:1.5rem}.book-left,.book-right{padding:2.5rem 1.5rem}.hero-title{font-size:2.8rem}.testi-card{min-width:calc(100%)}.contact-layout{grid-template-columns:1fr}.foot-grid{grid-template-columns:1fr;gap:2rem}.foot-bottom{flex-direction:column;text-align:center}.f-row2{grid-template-columns:1fr}.why-strip{grid-template-columns:1fr 1fr}.gal-masonry{grid-template-columns:repeat(2,1fr)}.ig-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+<div id="toast" class="toast">✓ Appointment booked! We'll confirm via WhatsApp within the hour.</div>
+<div id="lightbox" class="lightbox"><button class="lb-close" id="lb-close">✕</button><img id="lb-img" src="" alt="Gallery"></div>
+
+<button class="float-wa" onclick="window.open('https://wa.me/9779801234567')">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.105.546 4.084 1.5 5.807L0 24l6.335-1.473A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.85 0-3.6-.5-5.1-1.37l-.367-.214-3.76.874.935-3.667-.235-.38A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+</button>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="logo" href="#">
+    <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M9.64 7.64c.23-.5.36-1.05.36-1.64 0-2.21-1.79-4-4-4S2 3.79 2 6s1.79 4 4 4c.59 0 1.14-.13 1.64-.36L10 12l-2.36 2.36C7.14 14.13 6.59 14 6 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4c0-.59-.13-1.14-.36-1.64L12 14l7 7h3v-1L9.64 7.64z"/></svg></div>
+    <div class="logo-text"><span class="logo-name">Glow Kathmandu</span><span class="logo-sub">Unisex Hair Salon · Thamel</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a onclick="goto('services')">Services</a></li>
+    <li><a onclick="goto('gallery')">Gallery</a></li>
+    <li><a onclick="goto('about')">About</a></li>
+    <li><a onclick="goto('testimonials')">Reviews</a></li>
+    <li><a onclick="goto('contact')">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-btn" id="theme-toggle" title="Toggle theme">
+      <svg id="theme-icon" viewBox="0 0 24 24"><path id="theme-path" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+    </button>
+    <button class="nav-cta" onclick="goto('booking')">Book Now</button>
+  </div>
+  <button class="hamburger" id="ham" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mob-menu" id="mobmenu">
+  <a onclick="goto('services');toggleMenu()">Services</a>
+  <a onclick="goto('gallery');toggleMenu()">Gallery</a>
+  <a onclick="goto('about');toggleMenu()">About</a>
+  <a onclick="goto('testimonials');toggleMenu()">Reviews</a>
+  <a onclick="goto('contact');toggleMenu()">Contact</a>
+  <button class="btn-primary" onclick="goto('booking');toggleMenu()">Book Appointment</button>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-img-wrap">
+    <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=1800&h=1000&fit=crop&q=90" alt="Glow Kathmandu Unisex Hair Salon">
+  </div>
+  <div class="hero-content">
+    <div class="hero-pill"><span></span>Thamel · Kathmandu · Est. 2018</div>
+    <h1 class="hero-title">Your Hair,<br>Your <em>Identity</em></h1>
+    <p class="hero-desc">Kathmandu's favourite unisex hair salon for men and women. Expert haircuts, bold colours, and professional hair care — all under one roof in Thamel.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="goto('booking')">Book Appointment</button>
+      <button class="btn-secondary" onclick="goto('services')">Our Services</button>
+    </div>
+  </div>
+  <div class="hero-badges">
+    <div class="hero-badge"><div class="hero-badge-num">2800<span style="font-size:1rem">+</span></div><div class="hero-badge-lbl">Happy Clients</div></div>
+    <div class="hero-badge"><div class="hero-badge-num">NPR 500</div><div class="hero-badge-lbl">Haircut from</div></div>
+  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div><span>Scroll to explore</span></div>
+</section>
+
+<!-- BAND -->
+<div class="band">
+  <div class="band-inner">
+    <div class="band-item">Haircut & Styling</div>
+    <div class="band-item">Hair Coloring & Balayage</div>
+    <div class="band-item">Keratin Treatment</div>
+    <div class="band-item">Men's Grooming</div>
+    <div class="band-item">Hair Straightening</div>
+    <div class="band-item">Beard Trim & Shaping</div>
+    <div class="band-item">Olaplex Treatment</div>
+    <div class="band-item">Hair Spa</div>
+    <!-- duplicate for seamless loop -->
+    <div class="band-item">Haircut & Styling</div>
+    <div class="band-item">Hair Coloring & Balayage</div>
+    <div class="band-item">Keratin Treatment</div>
+    <div class="band-item">Men's Grooming</div>
+    <div class="band-item">Hair Straightening</div>
+    <div class="band-item">Beard Trim & Shaping</div>
+    <div class="band-item">Olaplex Treatment</div>
+    <div class="band-item">Hair Spa</div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-row rv">
+  <div class="stat"><div class="stat-num" id="c1">0<span class="stat-suf">+</span></div><div class="stat-label">Happy Clients</div></div>
+  <div class="stat"><div class="stat-num" id="c2">0</div><div class="stat-label">Years in Thamel</div></div>
+  <div class="stat"><div class="stat-num" id="c3">0<span class="stat-suf">+</span></div><div class="stat-label">Expert Stylists</div></div>
+  <div class="stat"><div class="stat-num" id="c4">0<span class="stat-suf">%</span></div><div class="stat-label">Client Satisfaction</div></div>
+</div>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="inner">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-bottom:3.5rem">
+      <div class="rvl">
+        <div class="sec-eyebrow">About Glow Kathmandu</div>
+        <h2 class="sec-title">Hair-First. <em>Always.</em></h2>
+        <p class="sec-body">We are a unisex hair salon based in the heart of Thamel, Kathmandu. Whether you are a man wanting a clean fade and beard trim, or a woman looking for a bold balayage and a fresh cut — our team of trained stylists is here for you.<br><br>We believe great hair is not about gender. It is about skill, the right products, and a stylist who truly listens.</p>
+      </div>
+      <div class="rvr" style="position:relative">
+        <img src="https://images.fresha.com/locations/location-profile-images/40093/172591/c4bfd3aa-b455-4bf5-ace0-2abe74cc82db.jpg?class=venue-gallery-large&f_width=1200" alt="Salon Interior" style="width:100%;height:420px;object-fit:cover;display:block">
+        <div style="position:absolute;bottom:-1.5rem;left:-1.5rem;background:var(--red);color:#fff;padding:1.2rem 1.5rem">
+          <div style="font-family:var(--fd);font-size:1.6rem;font-weight:700;line-height:1">NPR 500</div>
+          <div style="font-family:var(--fn);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;opacity:.8;margin-top:3px">Haircut from</div>
+        </div>
+      </div>
+    </div>
+    <div class="why-strip rv">
+      <div class="why-card">
+        <div class="why-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <div class="why-title">Walk-Ins Welcome</div>
+        <p class="why-text">No appointment needed for most cuts. Just walk in to our Thamel salon any day, 9AM–8PM.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div class="why-title">Men & Women</div>
+        <p class="why-text">Truly unisex — every stylist is trained for all hair types, lengths, and styles for all genders.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="why-title">Trained Stylists</div>
+        <p class="why-text">Our stylists are trained in Kathmandu and abroad with experience in modern and traditional Nepali cuts.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="why-title">Clean & Safe</div>
+        <p class="why-text">Sterilized tools and fresh towels for every single client. Your hygiene is our priority, always.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section class="section section-alt" id="services">
+  <div class="inner">
+    <div class="svc-layout">
+      <div class="svc-sticky rvl">
+        <div class="sec-eyebrow">What We Do</div>
+        <h2 class="sec-title">Services for<br><em>Everyone</em></h2>
+        <p class="sec-body" style="margin-top:.5rem">From a quick men's crop to a full women's balayage — we do it all with equal care and skill.</p>
+        <div class="svc-tabs" style="margin-top:2rem">
+          <button class="svc-tab active" onclick="filterSvc('all',this)">All</button>
+          <button class="svc-tab" onclick="filterSvc('men',this)">Men</button>
+          <button class="svc-tab" onclick="filterSvc('women',this)">Women</button>
+        </div>
+        <div style="margin-top:2rem;padding:1.5rem;background:var(--red-lt);border-left:3px solid var(--red)">
+          <div style="font-family:var(--fd);font-size:.85rem;font-weight:600;color:var(--red);margin-bottom:.3rem">First Visit?</div>
+          <p style="font-family:var(--fn);font-size:.78rem;color:var(--ink2);line-height:1.6;font-weight:300">Get <strong>15% off</strong> your first haircut. Just mention this when you book.</p>
+        </div>
+      </div>
+      <div class="svc-cards rv" id="svc-cards">
+        <div class="svc-card" data-cat="men women">
+          <div class="svc-badge">Popular</div>
+          <div class="svc-icon-wrap"><svg viewBox="0 0 24 24"><path d="M9.64 7.64c.23-.5.36-1.05.36-1.64 0-2.21-1.79-4-4-4S2 3.79 2 6s1.79 4 4 4c.59 0 1.14-.13 1.64-.36L10 12l-2.36 2.36C7.14 14.13 6.59 14 6 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4c0-.59-.13-1.14-.36-1.64L12 14l7 7h3v-1L9.64 7.64z"/></svg></div>
+          <div class="svc-name">Haircut & Styling</div>
+          <p class="svc-desc">Precision cuts for all hair types — classic, modern, or custom styled to your face shape. Includes wash and blow-dry.</p>
+          <div class="svc-footer"><div class="svc-price">From NPR 500</div><div class="svc-dur">30–45 min</div></div>
+        </div>
+        <div class="svc-card" data-cat="men">
+          <div class="svc-icon-wrap"><svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12.01" y2="12"/></svg></div>
+          <div class="svc-name">Men's Fade & Crop</div>
+          <p class="svc-desc">Skin fades, tapers, crew cuts, undercuts. Clean lines and sharp edges every time, with or without a beard trim.</p>
+          <div class="svc-footer"><div class="svc-price">From NPR 500</div><div class="svc-dur">30 min</div></div>
+        </div>
+        <div class="svc-card" data-cat="men">
+          <div class="svc-icon-wrap"><svg viewBox="0 0 24 24"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg></div>
+          <div class="svc-name">Beard Trim & Shaping</div>
+          <p class="svc-desc">Precise beard shaping, line-up, and clean shave. Includes hot towel and moisturizing finish for a polished result.</p>
+          <div class="svc-footer"><div class="svc-price">From NPR 250</div><div class="svc-dur">20 min</div></div>
+        </div>
+        <div class="svc-card" data-cat="women">
+          <div class="svc-badge">Trending</div>
+          <div class="svc-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+          <div class="svc-name">Hair Coloring & Balayage</div>
+          <p class="svc-desc">Full color, highlights, balayage, ombre, and root touch-ups. Using Schwarzkopf and L'Oréal Professional for vibrant, lasting color.</p>
+          <div class="svc-footer"><div class="svc-price">From NPR 1,500</div><div class="svc-dur">2–3 hrs</div></div>
+        </div>
+        <div class="svc-card" data-cat="men women">
+          <div class="svc-icon-wrap"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="svc-name">Keratin & Hair Treatment</div>
+          <p class="svc-desc">Brazilian keratin, Olaplex protein repair, and deep conditioning. Restores frizzy, damaged, or chemically treated hair back to health.</p>
+          <div class="svc-footer"><div class="svc-price">From NPR 2,500</div><div class="svc-dur">90 min</div></div>
+        </div>
+        <div class="svc-card" data-cat="men women">
+          <div class="svc-icon-wrap"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div class="svc-name">Hair Straightening</div>
+          <p class="svc-desc">Permanent and semi-permanent straightening using professional products. Long-lasting smoothness for all hair types including thick Nepali hair.</p>
+          <div class="svc-footer"><div class="svc-price">From NPR 3,000</div><div class="svc-dur">2–4 hrs</div></div>
+        </div>
+        <div class="svc-card" data-cat="men women">
+          <div class="svc-icon-wrap"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+          <div class="svc-name">Hair Spa & Scalp Care</div>
+          <p class="svc-desc">Relaxing head massage with nourishing hair spa treatment. Targets dry scalp, dandruff, and hair fall — popular with both men and women.</p>
+          <div class="svc-footer"><div class="svc-price">From NPR 800</div><div class="svc-dur">60 min</div></div>
+        </div>
+        <div class="svc-card" data-cat="women">
+          <div class="svc-icon-wrap"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg></div>
+          <div class="svc-name">Blowout & Styling</div>
+          <p class="svc-desc">Professional blow-dry, curl setting, and occasion styling. Perfect for weddings, events, or just a polished everyday look.</p>
+          <div class="svc-footer"><div class="svc-price">From NPR 700</div><div class="svc-dur">45 min</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section" id="gallery">
+  <div class="inner">
+    <div class="rv" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1.5rem">
+      <div><div class="sec-eyebrow">Our Work</div><h2 class="sec-title">Fresh Cuts,<br><em>Real Results</em></h2></div>
+      <p class="sec-body" style="max-width:380px;margin-bottom:0">Browse real work done at Glow Kathmandu. Click any photo to enlarge.</p>
+    </div>
+    <div class="gal-masonry rv">
+      <div class="gm-item gm-h1" onclick="openLb('https://t3.ftcdn.net/jpg/01/42/44/18/360_F_142441827_QYfjnExJnUaUMSq6GxngxQGeYNoMy7WE.jpg')">
+        <img src="https://t3.ftcdn.net/jpg/01/42/44/18/360_F_142441827_QYfjnExJnUaUMSq6GxngxQGeYNoMy7WE.jpg" alt="Men's Haircut">
+        <div class="gm-overlay"><span class="gm-label">Men's Cut</span></div>
+      </div>
+      <div class="gm-item gm-h1" onclick="openLb('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfMInF92E3oMOn6mRU6wImqaetsjAk_sCrnA&s')">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfMInF92E3oMOn6mRU6wImqaetsjAk_sCrnA&s" alt="Balayage">
+        <div class="gm-overlay"><span class="gm-label">Balayage Color</span></div>
+      </div>
+      <div class="gm-item gm-h2 gm-span2" onclick="openLb('https://media.gettyimages.com/id/1707811104/video/teenage-boy-having-haircut-at-the-barber-shop.jpg?s=640x640&k=20&c=ScA2CG8HkgEryxeCsS-0mBOdwWLBfhbnqPPw89n7PRU=')">
+        <img src="https://media.gettyimages.com/id/1707811104/video/teenage-boy-having-haircut-at-the-barber-shop.jpg?s=640x640&k=20&c=ScA2CG8HkgEryxeCsS-0mBOdwWLBfhbnqPPw89n7PRU=" alt="Salon">
+        <div class="gm-overlay"><span class="gm-label">Glow Kathmandu Interior</span></div>
+      </div>
+      <div class="gm-item gm-h4" style="grid-row:span 2" onclick="openLb('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYq8t0L2eS5F5SjW93nG3nL3HzikcOJyWkEg&s')">
+        <img src="https://stilehair.com.sg/wp-content/uploads/2025/05/An-Indian-woman-with-warm-auburn-hair.jpg" alt="Hair Styling" style="height:100%">
+        <div class="gm-overlay"><span class="gm-label">Styling Session</span></div>
+      </div>
+      <div class="gm-item gm-h2" onclick="openLb('https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=900&q=90')">
+        <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=500&h=240&fit=crop&q=85" alt="Color Treatment">
+        <div class="gm-overlay"><span class="gm-label">Hair Coloring</span></div>
+      </div>
+      <div class="gm-item gm-h2" onclick="openLb('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=900&q=90')">
+        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&h=240&fit=crop&q=85" alt="Haircut">
+        <div class="gm-overlay"><span class="gm-label">Women's Cut</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BOOKING -->
+<section class="section section-alt" id="booking">
+  <div class="inner">
+    <div class="rv" style="text-align:center;margin-bottom:3.5rem">
+      <div class="sec-eyebrow" style="justify-content:center">Book Appointment</div>
+      <h2 class="sec-title" style="text-align:center">Reserve Your <em>Chair</em></h2>
+    </div>
+    <div class="book-layout rv">
+      <div class="book-left">
+        <div class="book-eyebrow">Glow Kathmandu Salon</div>
+        <div class="book-title">Book in<br><em>60 seconds</em></div>
+        <p class="book-desc">Choose your service, pick a time that suits you, and we'll confirm via WhatsApp. Walk-ins also welcome most days.</p>
+        <div class="book-info-item">
+          <div class="book-info-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+          <div><div class="book-info-label">Location</div><div class="book-info-val">Thamel Marg, Kathmandu 44600</div></div>
+        </div>
+        <div class="book-info-item">
+          <div class="book-info-icon"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+          <div><div class="book-info-label">Phone / WhatsApp</div><div class="book-info-val">+977 980-123-4567</div></div>
+        </div>
+        <div class="book-info-item">
+          <div class="book-info-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div><div class="book-info-label">Hours</div><div class="book-info-val">Every day: 9:00 AM – 8:00 PM<br>(Sundays: 10:00 AM – 6:00 PM)</div></div>
+        </div>
+      </div>
+      <div class="book-right">
+        <div id="booking-form">
+          <div class="form-head">Fill in your details</div>
+          <div class="f-row2">
+            <div class="fg"><label class="fl">Your Name</label><input class="fi" id="f-name" placeholder="Ram Prasad Sharma" required></div>
+            <div class="fg"><label class="fl">WhatsApp Number</label><input class="fi" id="f-phone" placeholder="98XXXXXXXX" required></div>
+          </div>
+          <div class="fg"><label class="fl">Select Service</label>
+            <select class="fsel" id="f-service">
+              <option value="">— Choose a service —</option>
+              <option>Haircut & Styling — NPR 500+</option>
+              <option>Men's Fade & Crop — NPR 500+</option>
+              <option>Beard Trim & Shaping — NPR 250+</option>
+              <option>Hair Coloring & Balayage — NPR 1,500+</option>
+              <option>Keratin & Hair Treatment — NPR 2,500+</option>
+              <option>Hair Straightening — NPR 3,000+</option>
+              <option>Hair Spa & Scalp Care — NPR 800+</option>
+              <option>Blowout & Styling — NPR 700+</option>
+            </select>
+          </div>
+          <div class="f-row2">
+            <div class="fg"><label class="fl">Date</label><input class="fi" type="date" id="f-date" required></div>
+            <div class="fg"><label class="fl">Time</label>
+              <select class="fsel" id="f-time">
+                <option value="">— Pick a time —</option>
+                <option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
+                <option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option>
+                <option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option><option>6:00 PM</option>
+              </select>
+            </div>
+          </div>
+          <div class="fg"><label class="fl">Notes (optional)</label><input class="fi" id="f-notes" placeholder="e.g. reference photo, first visit, skin fade..."></div>
+          <button class="book-submit" onclick="submitBooking()">
+            Confirm Appointment
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+        <div id="book-success">
+          <svg viewBox="0 0 24 24" style="width:52px;height:52px;stroke:var(--grn);fill:none;stroke-width:1.5;margin:0 auto 1.2rem;display:block"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <div style="font-family:var(--fd);font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:.7rem">You're all booked!</div>
+          <p style="font-family:var(--fn);font-size:.85rem;color:var(--ink3);line-height:1.75;margin-bottom:1.5rem">We'll confirm your appointment via WhatsApp within the hour. See you at Glow Kathmandu in Thamel!</p>
+          <button class="btn-primary" onclick="resetBooking()">Book Another</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="testimonials">
+  <div class="inner">
+    <div class="testi-header">
+      <div class="rvl"><div class="sec-eyebrow">Client Reviews</div><h2 class="sec-title">What Our Clients<br><em>Are Saying</em></h2></div>
+      <div class="arr-btns rvr"><button class="arr-btn" onclick="prevSlide()">←</button><button class="arr-btn" onclick="nextSlide()">→</button></div>
+    </div>
+    <div class="testi-wrap rv">
+      <div class="testi-track" id="ttrack">
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Best haircut I've had in Kathmandu. I showed a reference photo and the stylist nailed it perfectly. Clean fade, sharp lines — exactly what I wanted. Already booked again."</p>
+          <div class="testi-author">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face&q=80" alt="Rohan">
+            <div><div class="testi-name">Rohan Shrestha</div><div class="testi-role">Thamel, Kathmandu</div><span class="testi-service">Men's Fade</span></div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"I came in for balayage and was honestly nervous, but the result was stunning. Natural-looking colour, no damage at all. The team was patient and explained everything step by step."</p>
+          <div class="testi-author">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&h=100&fit=crop&crop=face&q=80" alt="Priya">
+            <div><div class="testi-name">Priya Tamang</div><div class="testi-role">Lazimpat, Kathmandu</div><span class="testi-service">Balayage</span></div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"My go-to place in Thamel. Affordable, clean, and the stylists genuinely know what they're doing. The keratin treatment worked wonders on my frizzy hair — it's been 3 months and still smooth."</p>
+          <div class="testi-author">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face&q=80" alt="Sita">
+            <div><div class="testi-name">Sita Gurung</div><div class="testi-role">Baneshwor, Kathmandu</div><span class="testi-service">Keratin Treatment</span></div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"I've been coming here for beard trims for over a year. Always consistent, always clean. They remember how I like it and the staff are super friendly. 100% recommend to the guys."</p>
+          <div class="testi-author">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop&crop=face&q=80" alt="Anil">
+            <div><div class="testi-name">Anil Bajracharya</div><div class="testi-role">Patan, Lalitpur</div><span class="testi-service">Beard Trim</span></div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Brought my daughter and son here together — got both done at the same time, great value. The salon is clean, the stylists were gentle with the kids. Will be our family salon from now on."</p>
+          <div class="testi-author">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=100&h=100&fit=crop&crop=face&q=80" alt="Deepa">
+            <div><div class="testi-name">Deepa Maharjan</div><div class="testi-role">Kirtipur, Kathmandu</div><span class="testi-service">Family Visit</span></div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Finally a salon in Kathmandu that understands men's hair too. I got a textured crop and it was styled exactly the way I wanted. Reasonably priced and the experience was top notch."</p>
+          <div class="testi-author">
+            <img class="testi-avatar" src="https://images.unsplash.com/photo-1542178243-bc20204b769f?w=100&h=100&fit=crop&crop=face&q=80" alt="Bikash">
+            <div><div class="testi-name">Bikash Rai</div><div class="testi-role">Boudha, Kathmandu</div><span class="testi-service">Textured Crop</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dots-row" id="dots"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- INSTAGRAM -->
+<section class="section section-alt">
+  <div class="inner">
+    <div class="rv" style="text-align:center;margin-bottom:2.5rem">
+      <div class="sec-eyebrow" style="justify-content:center">Follow Us</div>
+      <h2 class="sec-title" style="text-align:center">@<em>GlowKathmandu</em></h2>
+      <p style="font-family:var(--fn);font-size:.82rem;color:var(--ink3);margin-top:.4rem">Follow for daily looks, styling tips &amp; Kathmandu hair inspo</p>
+    </div>
+    <div class="ig-grid rv">
+      <div class="ig-item"><img src="https://t3.ftcdn.net/jpg/01/42/44/18/360_F_142441827_QYfjnExJnUaUMSq6GxngxQGeYNoMy7WE.jpg" alt=""><div class="ig-overlay"><div class="ig-count">1.2K</div><div class="ig-label">Likes</div></div></div>
+      <div class="ig-item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfMInF92E3oMOn6mRU6wImqaetsjAk_sCrnA&s" alt=""><div class="ig-overlay"><div class="ig-count">943</div><div class="ig-label">Likes</div></div></div>
+      <div class="ig-item"><img src="https://media.gettyimages.com/id/1707811104/video/teenage-boy-having-haircut-at-the-barber-shop.jpg?s=640x640&k=20&c=ScA2CG8HkgEryxeCsS-0mBOdwWLBfhbnqPPw89n7PRU=" alt=""><div class="ig-overlay"><div class="ig-count">2.1K</div><div class="ig-label">Likes</div></div></div>
+      <div class="ig-item"><img src="https://stilehair.com.sg/wp-content/uploads/2025/05/An-Indian-woman-with-warm-auburn-hair.jpg" alt=""><div class="ig-overlay"><div class="ig-count">876</div><div class="ig-label">Likes</div></div></div>
+      <div class="ig-item"><img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=280&h=280&fit=crop&q=80" alt=""><div class="ig-overlay"><div class="ig-count">1.5K</div><div class="ig-label">Likes</div></div></div>
+      <div class="ig-item"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=280&h=280&fit=crop&q=80" alt=""><div class="ig-overlay"><div class="ig-count">3.4K</div><div class="ig-label">Likes</div></div></div>
+    </div>
+    <div style="text-align:center;margin-top:2rem">
+      <button class="btn-primary" onclick="window.open('https://instagram.com')">Follow on Instagram</button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="inner">
+    <div class="rv" style="margin-bottom:3rem"><div class="sec-eyebrow">Find Us</div><h2 class="sec-title">Come Visit Us<br>in <em>Thamel</em></h2></div>
+    <div class="contact-layout">
+      <div class="rvl">
+        <div class="contact-item">
+          <div class="c-iconbox"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+          <div><div class="c-lbl">Address</div><div class="c-val">Thamel Marg, Kathmandu 44600<br>Near Chhaya Complex</div></div>
+        </div>
+        <div class="contact-item">
+          <div class="c-iconbox"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+          <div><div class="c-lbl">Phone</div><div class="c-val">+977 980-123-4567</div></div>
+        </div>
+        <div class="contact-item">
+          <div class="c-iconbox"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+          <div><div class="c-lbl">Email</div><div class="c-val">hello@glowkathmandu.com</div></div>
+        </div>
+        <div class="contact-item">
+          <div class="c-iconbox"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div><div class="c-lbl">Hours</div><div class="c-val">Mon–Sat: 9:00 AM – 8:00 PM<br>Sunday: 10:00 AM – 6:00 PM</div></div>
+        </div>
+        <button class="wa-btn" onclick="window.open('https://wa.me/9779801234567')">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.105.546 4.084 1.5 5.807L0 24l6.335-1.473A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.85 0-3.6-.5-5.1-1.37l-.367-.214-3.76.874.935-3.667-.235-.38A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Message on WhatsApp
+        </button>
+      </div>
+      <div class="rvr">
+        <div class="map-wrap">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14127.008!2d85.3095!3d27.7172!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb18fcb77fd4bd%3A0x58099b984d2c9b55!2sThamel%2C%20Kathmandu!5e0!3m2!1sen!2snp!4v1700000000000" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Glow Kathmandu Thamel"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="inner">
+    <div class="foot-grid">
+      <div>
+        <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.2rem">
+          <div class="logo-mark" style="background:var(--red)"><svg viewBox="0 0 24 24" fill="white"><path d="M9.64 7.64c.23-.5.36-1.05.36-1.64 0-2.21-1.79-4-4-4S2 3.79 2 6s1.79 4 4 4c.59 0 1.14-.13 1.64-.36L10 12l-2.36 2.36C7.14 14.13 6.59 14 6 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4c0-.59-.13-1.14-.36-1.64L12 14l7 7h3v-1L9.64 7.64z"/></svg></div>
+          <div><div class="foot-logo-name">Glow Kathmandu</div><div class="foot-logo-sub">Unisex Hair Salon · Thamel</div></div>
+        </div>
+        <p class="foot-desc">Kathmandu's friendly unisex hair salon for men and women. Great cuts, bold colours, and expert hair care — all in the heart of Thamel.</p>
+        <div class="foot-socials">
+          <div class="foot-social" onclick="window.open('https://instagram.com')"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+          <div class="foot-social" onclick="window.open('https://facebook.com')"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div>
+          <div class="foot-social" onclick="window.open('https://wa.me/9779801234567')"><svg viewBox="0 0 24 24" style="stroke:none"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.105.546 4.084 1.5 5.807L0 24l6.335-1.473A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.85 0-3.6-.5-5.1-1.37l-.367-.214-3.76.874.935-3.667-.235-.38A9.955 9.955 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></div>
+        </div>
+      </div>
+      <div>
+        <div class="foot-title">Services</div>
+        <ul class="foot-links">
+          <li><a onclick="goto('services')">Haircut & Styling</a></li>
+          <li><a onclick="goto('services')">Men's Fade & Crop</a></li>
+          <li><a onclick="goto('services')">Beard Trim</a></li>
+          <li><a onclick="goto('services')">Hair Coloring</a></li>
+          <li><a onclick="goto('services')">Keratin Treatment</a></li>
+          <li><a onclick="goto('services')">Hair Straightening</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-title">Quick Links</div>
+        <ul class="foot-links">
+          <li><a onclick="goto('about')">About Us</a></li>
+          <li><a onclick="goto('gallery')">Gallery</a></li>
+          <li><a onclick="goto('testimonials')">Client Reviews</a></li>
+          <li><a onclick="goto('booking')">Book Appointment</a></li>
+          <li><a onclick="goto('contact')">Contact & Location</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-title">Contact</div>
+        <ul class="foot-links">
+          <li><a href="tel:+9779801234567">+977 980-123-4567</a></li>
+          <li><a>hello@glowkathmandu.com</a></li>
+          <li><a onclick="goto('contact')">Thamel, Kathmandu</a></li>
+          <li><a onclick="goto('contact')">Mon–Sat: 9AM–8PM</a></li>
+        </ul>
+        <div style="margin-top:1.5rem">
+          <div class="foot-title">Get Offers</div>
+          <div class="news-row">
+            <input class="news-in" placeholder="Your phone/email">
+            <button class="news-btn">Go</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot-divider"></div>
+    <div class="foot-bottom">
+      <div class="foot-copy">© 2025 Glow Kathmandu Unisex Hair Salon. Thamel, Kathmandu, Nepal.</div>
+      <div class="foot-copy">Made with care for Kathmandu</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Theme toggle
+let dark = false;
+const themeBtn = document.getElementById('theme-toggle');
+const themePath = document.getElementById('theme-path');
+themeBtn.onclick = () => {
+  dark = !dark;
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : '');
+  if (dark) {
+    themePath.setAttribute('d','M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z');
+  } else {
+    themePath.setAttribute('d','M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z');
+  }
+};
+
+// Scroll
+window.addEventListener('scroll', () => {
+  const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  document.querySelectorAll('.rv,.rvl,.rvr').forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.9) el.classList.add('on');
+  });
+}, { passive: true });
+setTimeout(() => document.querySelectorAll('.rv,.rvl,.rvr').forEach(el => {
+  if (el.getBoundingClientRect().top < window.innerHeight * 0.9) el.classList.add('on');
+}), 200);
+
+function goto(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }
+function toggleMenu() { document.getElementById('mobmenu').classList.toggle('open'); }
+
+// Counters
+const cdefs = [{id:'c1',t:2800,s:'<span class="stat-suf">+</span>'},{id:'c2',t:6,s:''},{id:'c3',t:12,s:'<span class="stat-suf">+</span>'},{id:'c4',t:97,s:'<span class="stat-suf">%</span>'}];
+let counted = false;
+new IntersectionObserver(([e]) => {
+  if (!e.isIntersecting || counted) return; counted = true;
+  cdefs.forEach(({id,t,s}) => {
+    const el = document.getElementById(id); let v = 0;
+    const step = t/110, timer = setInterval(() => {
+      v += step; if (v >= t) { el.innerHTML = t + s; clearInterval(timer); }
+      else el.innerHTML = Math.floor(v) + s;
+    }, 16);
+  });
+}, {threshold:.3}).observe(document.querySelector('.stats-row'));
+
+// Service filter
+function filterSvc(cat, btn) {
+  document.querySelectorAll('.svc-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.svc-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.cat.includes(cat)) ? 'block' : 'none';
+  });
+}
+
+// Carousel — 3 visible
+let slide = 0;
+const TOTAL = 6;
+const track = document.getElementById('ttrack');
+const dotsEl = document.getElementById('dots');
+for (let i = 0; i < TOTAL; i++) {
+  const d = document.createElement('button');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goSlide(i);
+  dotsEl.appendChild(d);
+}
+function goSlide(n) {
+  const mob = window.innerWidth <= 768;
+  const visible = mob ? 1 : window.innerWidth <= 1100 ? 2 : 3;
+  const max = TOTAL - visible;
+  slide = Math.max(0, Math.min(n, max));
+  const w = track.parentElement.offsetWidth;
+  const cardW = w / visible + 14 / visible;
+  track.style.transform = 'translateX(-' + (slide * cardW) + 'px)';
+  dotsEl.querySelectorAll('.dot').forEach((d, i) => d.className = 'dot' + (i === slide ? ' active' : ''));
+}
+function nextSlide() { goSlide(slide + 1); }
+function prevSlide() { goSlide(slide - 1); }
+const autoT = setInterval(nextSlide, 5000);
+track.addEventListener('mouseenter', () => clearInterval(autoT));
+
+// Booking
+function submitBooking() {
+  const n = document.getElementById('f-name').value.trim();
+  const p = document.getElementById('f-phone').value.trim();
+  const s = document.getElementById('f-service').value;
+  const d = document.getElementById('f-date').value;
+  const t = document.getElementById('f-time').value;
+  if (!n || !p || !s || !d || !t) { alert('Please fill all required fields.'); return; }
+  document.getElementById('booking-form').style.display = 'none';
+  document.getElementById('book-success').style.display = 'block';
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+function resetBooking() {
+  document.getElementById('booking-form').style.display = 'block';
+  document.getElementById('book-success').style.display = 'none';
+  ['f-name','f-phone','f-notes'].forEach(id => document.getElementById(id).value = '');
+  ['f-service','f-time'].forEach(id => document.getElementById(id).selectedIndex = 0);
+  document.getElementById('f-date').value = '';
+}
+
+// Lightbox
+function openLb(src) {
+  document.getElementById('lb-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+document.getElementById('lb-close').onclick = () => document.getElementById('lightbox').classList.remove('open');
+document.getElementById('lightbox').onclick = function(e) { if (e.target === this) this.classList.remove('open'); };
+</script>
+</body>
+</html>
