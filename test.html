@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking System Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        .booking-data { background: #f8f9fa; padding: 10px; border-radius: 3px; font-family: monospace; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>Booking System Test</h1>
+
+    <div class="test-section">
+        <h3>Test 1: Check localStorage Key</h3>
+        <button onclick="checkLocalStorage()">Check localStorage</button>
+        <div id="storage-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Test 2: Simulate Booking</h3>
+        <button onclick="simulateBooking()">Create Test Booking</button>
+        <div id="booking-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Test 3: View Current Bookings</h3>
+        <button onclick="viewBookings()">View All Bookings</button>
+        <div id="view-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Test 4: Clear Test Data</h3>
+        <button onclick="clearBookings()">Clear All Bookings</button>
+        <div id="clear-result"></div>
+    </div>
+
+    <script>
+        const KEY = 'glow_bookings_v1';
+
+        function checkLocalStorage() {
+            const result = document.getElementById('storage-result');
+            try {
+                const data = localStorage.getItem(KEY);
+                if (data) {
+                    const bookings = JSON.parse(data);
+                    result.innerHTML = `<div class="success">✓ localStorage key exists with ${bookings.length} bookings</div>`;
+                } else {
+                    result.innerHTML = `<div class="error">✗ localStorage key does not exist or is empty</div>`;
+                }
+            } catch (e) {
+                result.innerHTML = `<div class="error">✗ Error accessing localStorage: ${e.message}</div>`;
+            }
+        }
+
+        function simulateBooking() {
+            const result = document.getElementById('booking-result');
+            try {
+                const testBooking = {
+                    id: Date.now(),
+                    name: 'Test Customer',
+                    phone: '9801234567',
+                    service: 'Haircut & Styling',
+                    barber: 'Ramesh',
+                    date: new Date().toISOString().split('T')[0],
+                    time: '10:00 AM',
+                    notes: 'Test booking from automated test',
+                    status: 'new',
+                    created: new Date().toISOString().split('T')[0]
+                };
+
+                const arr = JSON.parse(localStorage.getItem(KEY) || '[]');
+                arr.unshift(testBooking);
+                localStorage.setItem(KEY, JSON.stringify(arr));
+
+                result.innerHTML = `<div class="success">✓ Test booking created successfully</div>
+                    <div class="booking-data">${JSON.stringify(testBooking, null, 2)}</div>`;
+            } catch (e) {
+                result.innerHTML = `<div class="error">✗ Error creating booking: ${e.message}</div>`;
+            }
+        }
+
+        function viewBookings() {
+            const result = document.getElementById('view-result');
+            try {
+                const data = localStorage.getItem(KEY);
+                if (data) {
+                    const bookings = JSON.parse(data);
+                    result.innerHTML = `<div class="success">✓ Found ${bookings.length} bookings</div>
+                        <div class="booking-data">${JSON.stringify(bookings, null, 2)}</div>`;
+                } else {
+                    result.innerHTML = `<div class="error">✗ No bookings found</div>`;
+                }
+            } catch (e) {
+                result.innerHTML = `<div class="error">✗ Error reading bookings: ${e.message}</div>`;
+            }
+        }
+
+        function clearBookings() {
+            const result = document.getElementById('clear-result');
+            try {
+                localStorage.removeItem(KEY);
+                result.innerHTML = `<div class="success">✓ All bookings cleared</div>`;
+            } catch (e) {
+                result.innerHTML = `<div class="error">✗ Error clearing bookings: ${e.message}</div>`;
+            }
+        }
+
+        // Auto-run first test
+        window.onload = function() {
+            checkLocalStorage();
+        };
+    </script>
+</body>
+</html>

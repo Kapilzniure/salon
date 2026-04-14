@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -205,35 +205,98 @@ h2.sec-title em{font-style:italic;font-weight:400;color:var(--red)}
 .gm-span2{grid-column:span 2}
 .gm-h1{height:200px}.gm-h2{height:200px}.gm-tall{height:404px;grid-row:span 2}
 
-/* BOOKING */
-.book-layout{display:grid;grid-template-columns:1.1fr 1fr;gap:0;border:1px solid var(--bor);overflow:hidden}
-.book-left{padding:4.5rem;background:var(--ink);color:#fff;position:relative;overflow:hidden}
-[data-theme="dark"] .book-left{background:var(--bg3)}
-.book-left::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border:1px solid rgba(255,255,255,.05);border-radius:50%}
-.book-left::after{content:'';position:absolute;bottom:-50px;left:-50px;width:180px;height:180px;border:1px solid rgba(255,255,255,.05);border-radius:50%}
-.book-eyebrow{font-family:var(--fn);font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold2);font-weight:600;margin-bottom:1.1rem}
-.book-title{font-family:var(--fd);font-size:2.5rem;font-weight:700;color:#fff;line-height:1.08;margin-bottom:1.3rem}
-.book-title em{font-style:italic;font-weight:400;color:var(--gold2)}
-.book-desc{font-family:var(--fn);font-size:.86rem;color:rgba(255,255,255,.58);line-height:1.72;margin-bottom:2.8rem;font-weight:300}
-.book-info-item{display:flex;align-items:flex-start;gap:.9rem;margin-bottom:1.4rem}
-.bii-icon{width:36px;height:36px;min-width:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;border-radius:var(--r)}
-.bii-icon svg{width:16px;height:16px;stroke:var(--gold2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.bii-label{font-family:var(--fn);font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:.2rem}
-.bii-val{font-family:var(--fn);font-size:.84rem;color:rgba(255,255,255,.8);font-weight:300;line-height:1.5}
-.book-right{padding:3.5rem;background:var(--sur)}
-.form-head{font-family:var(--fd);font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:1.8rem}
-.f-row2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
-.fg{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.9rem}
-.fl{font-family:var(--fn);font-size:.57rem;letter-spacing:.22em;text-transform:uppercase;color:var(--red);font-weight:700}
-.fi,.fsel{background:var(--bg2);border:1.5px solid var(--bor);color:var(--ink);padding:.78rem 1rem;font-family:var(--fn);font-size:.85rem;font-weight:300;outline:none;transition:border-color .25s,background .25s;width:100%;appearance:none;border-radius:var(--r)}
-.fi::placeholder{color:var(--ink3)}.fi:focus,.fsel:focus{border-color:var(--red);background:var(--sur)}
-.fsel option{background:var(--sur);color:var(--ink)}
-.book-submit{width:100%;font-family:var(--fn);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:#fff;background:var(--red);border:none;padding:1.1rem;cursor:pointer;font-weight:700;margin-top:.6rem;transition:all .3s;border-radius:var(--r);display:flex;align-items:center;justify-content:center;gap:.7rem;position:relative;overflow:hidden}
-.book-submit::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent);transform:translateX(-100%);transition:transform .6s}
-.book-submit:hover::after{transform:translateX(100%)}
-.book-submit:hover{background:var(--red2);box-shadow:0 8px 24px rgba(181,69,27,.4);transform:translateY(-1px)}
-.book-submit svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-#book-success{display:none;text-align:center;padding:3rem 0}
+/* BOOKING WIZARD */
+.booking-wizard{position:relative;max-width:600px;margin:0 auto}
+.wizard-step{display:none;padding:2rem;background:var(--sur);border-radius:var(--r);box-shadow:var(--sh)}
+.wizard-step.active{display:block}
+.step-header{text-align:center;margin-bottom:2rem}
+.step-icon{font-size:2rem;margin-bottom:.5rem}
+.step-header h3{font-family:var(--fd);font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:.5rem}
+.step-header p{font-size:.9rem;color:var(--ink3)}
+
+/* Service Selection */
+.service-grid{display:grid;grid-template-columns:1fr;gap:1rem;margin-bottom:2rem}
+.service-option{display:flex;align-items:center;padding:1.2rem;border:2px solid var(--bor);border-radius:var(--r);cursor:pointer;transition:all .2s;background:var(--sur)}
+.service-option:hover{border-color:var(--red);background:var(--bg2)}
+.service-option.selected{border-color:var(--red);background:var(--red-lt)}
+.service-icon{font-size:1.5rem;margin-right:1rem;flex-shrink:0}
+.service-info{flex:1}
+.service-name{font-family:var(--fd);font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:.3rem}
+.service-price{font-size:.85rem;color:var(--red);font-weight:600;margin-bottom:.2rem}
+.service-duration{font-size:.75rem;color:var(--ink3)}
+.service-check{display:none;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;margin-left:1rem}
+.service-option.selected .service-check{display:flex}
+
+/* Barber Selection */
+.barber-grid{display:grid;grid-template-columns:1fr;gap:1rem;margin-bottom:2rem}
+.barber-option{display:flex;align-items:center;padding:1.2rem;border:2px solid var(--bor);border-radius:var(--r);cursor:pointer;transition:all .2s;background:var(--sur)}
+.barber-option:hover{border-color:var(--red);background:var(--bg2)}
+.barber-option.selected{border-color:var(--red);background:var(--red-lt)}
+.barber-avatar{width:50px;height:50px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2rem;margin-right:1rem;flex-shrink:0}
+.barber-info{flex:1}
+.barber-name{font-family:var(--fd);font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:.2rem}
+.barber-specialty{font-size:.8rem;color:var(--ink3);margin-bottom:.2rem}
+.barber-rating{font-size:.8rem;color:var(--gold2)}
+.barber-check{display:none;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;margin-left:1rem}
+.barber-option.selected .barber-check{display:flex}
+
+/* DateTime Picker */
+.datetime-picker{display:grid;grid-template-columns:1fr;gap:2rem;margin-bottom:2rem}
+.date-picker h4,.time-picker h4{font-family:var(--fd);font-size:1.1rem;font-weight:600;color:var(--ink);margin-bottom:1rem;text-align:center}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:.5rem;margin-bottom:1rem}
+.calendar-day{font-size:.8rem;color:var(--ink3);text-align:center;padding:.5rem;font-weight:600}
+.calendar-date{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all .2s;border:2px solid transparent}
+.calendar-date:hover{background:var(--bg2);border-color:var(--bor)}
+.calendar-date.available:hover{background:var(--red-lt);border-color:var(--red);color:var(--red)}
+.calendar-date.selected{background:var(--red);color:#fff;border-color:var(--red)}
+.calendar-date.unavailable{color:var(--ink3);cursor:not-allowed;opacity:.4}
+.time-slots{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;max-height:200px;overflow-y:auto}
+.time-slot{padding:.8rem 1rem;border:2px solid var(--bor);border-radius:var(--r);text-align:center;cursor:pointer;transition:all .2s;background:var(--sur);font-size:.9rem;font-weight:500}
+.time-slot:hover{border-color:var(--red);background:var(--bg2)}
+.time-slot.selected{border-color:var(--red);background:var(--red);color:#fff}
+.time-slot.unavailable{opacity:.4;cursor:not-allowed}
+
+/* Contact Form */
+.contact-form{margin-bottom:2rem}
+.form-group{margin-bottom:1.5rem}
+.form-group label{display:block;font-size:.9rem;font-weight:600;color:var(--ink);margin-bottom:.5rem}
+.form-group input,.form-group textarea{width:100%;padding:1rem;border:2px solid var(--bor);border-radius:var(--r);font-size:1rem;background:var(--sur);color:var(--ink);outline:none;transition:border-color .2s}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--red)}
+.form-group textarea{resize:vertical;min-height:80px}
+
+/* Booking Summary */
+.booking-summary{background:var(--bg2);padding:1.5rem;border-radius:var(--r);margin-bottom:2rem}
+.booking-summary h4{font-family:var(--fd);font-size:1.1rem;font-weight:600;color:var(--ink);margin-bottom:1rem}
+.summary-item{display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.9rem}
+.summary-item span:first-child{color:var(--ink3)}
+.summary-item span:last-child{color:var(--ink);font-weight:500}
+
+/* Wizard Navigation */
+.wizard-nav{display:flex;justify-content:space-between;gap:1rem}
+.wizard-back,.wizard-next,.wizard-submit{font-family:var(--fn);font-size:.9rem;letter-spacing:.05em;text-transform:uppercase;padding:1rem 2rem;border-radius:var(--r);cursor:pointer;font-weight:600;transition:all .2s;border:none}
+.wizard-back{background:var(--bg3);color:var(--ink3);border:2px solid var(--bor)}
+.wizard-back:hover{background:var(--bg2)}
+.wizard-next,.wizard-submit{background:var(--red);color:#fff}
+.wizard-next:hover,.wizard-submit:hover{background:var(--red2);transform:translateY(-1px)}
+.wizard-submit{width:100%;margin-top:1rem}
+
+/* Progress Indicator */
+.booking-progress{display:flex;justify-content:center;gap:1rem;margin-top:2rem;padding:0 1rem}
+.progress-step{display:flex;flex-direction:column;align-items:center;gap:.3rem;opacity:.4;transition:opacity .3s}
+.progress-step.active{opacity:1}
+.step-number{width:40px;height:40px;border-radius:50%;background:var(--bor);color:var(--ink3);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem}
+.progress-step.active .step-number{background:var(--red);color:#fff}
+.step-label{font-size:.7rem;color:var(--ink3);font-weight:500;text-align:center}
+
+/* Confirmation */
+.confirmation{text-align:center;padding:2rem}
+.confirm-icon{font-size:3rem;margin-bottom:1rem}
+.confirmation h3{font-family:var(--fd);font-size:1.8rem;font-weight:700;color:var(--ink);margin-bottom:1rem}
+.confirmation p{font-size:1rem;color:var(--ink3);line-height:1.6;margin-bottom:2rem}
+.booking-details{background:var(--bg2);padding:1.5rem;border-radius:var(--r);margin-bottom:2rem;text-align:left;max-width:400px;margin-left:auto;margin-right:auto}
+.detail-item{display:flex;justify-content:space-between;margin-bottom:.8rem;font-size:.9rem}
+.detail-item strong{color:var(--ink)}
+.detail-item span{color:var(--ink2)}
 
 /* TESTIMONIALS */
 .testi-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
@@ -361,12 +424,16 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:5rem 5rem 2.5rem
     <li><a onclick="goto('testimonials')">Reviews</a></li>
     <li><a onclick="goto('contact')">Contact</a></li>
   </ul>
-  <div class="nav-right">
-    <button class="theme-btn" id="theme-toggle" title="Toggle dark/light mode">
-      <svg viewBox="0 0 24 24"><path id="theme-path" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-    </button>
-    <button class="nav-cta" onclick="goto('booking')">Book Now</button>
-  </div>
+ <div class="nav-right">
+  <button class="theme-btn" id="theme-toggle" title="Toggle dark/light mode">
+    <svg viewBox="0 0 24 24"><path id="theme-path" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+  </button>
+  <a href="admin.html" class="admin-link" style="font-family:var(--fn);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);background:transparent;border:1px solid var(--bor);padding:.55rem 1.2rem;cursor:pointer;font-weight:500;transition:all .2s;border-radius:var(--r);text-decoration:none;display:inline-flex;align-items:center;gap:.45rem">
+    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none"><path d="M12 15v2m-6-4h12a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6a2 2 0 012-2zm10-4a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+    Admin
+  </a>
+  <button class="nav-cta" onclick="goto('booking')">Book Now</button>
+</div>
   <button class="hamburger" id="ham" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </button>
@@ -378,6 +445,7 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:5rem 5rem 2.5rem
   <a onclick="goto('about');toggleMenu()">About</a>
   <a onclick="goto('testimonials');toggleMenu()">Reviews</a>
   <a onclick="goto('contact');toggleMenu()">Contact</a>
+  <a href="admin.html" style="background:var(--red);color:#fff!important;padding:.6rem 1.8rem;font-size:1.2rem!important;border-radius:4px;margin-top:1rem;display:inline-block;text-decoration:none" onclick="toggleMenu()">🔒 Admin Panel</a>
   <button class="btn-primary" style="margin-top:.5rem" onclick="goto('booking');toggleMenu()">Book Appointment</button>
 </div>
 
@@ -645,67 +713,213 @@ footer{background:var(--ink);color:rgba(255,255,255,.7);padding:5rem 5rem 2.5rem
       <div class="sec-eyebrow" style="justify-content:center">Book Appointment</div>
       <h2 class="sec-title" style="text-align:center">Reserve Your <em>Chair</em></h2>
     </div>
-    <div class="book-layout rv">
-      <div class="book-left">
-        <div class="book-eyebrow">Glow Kathmandu · Thamel</div>
-        <div class="book-title">Book in<br><em>60 seconds</em></div>
-        <p class="book-desc">Pick a service and time, and we'll confirm via WhatsApp. Walk-ins are also welcome most days without booking.</p>
-        <div class="book-info-item">
-          <div class="bii-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
-          <div><div class="bii-label">Address</div><div class="bii-val">Thamel Marg, Kathmandu 44600<br>Near Chhaya Complex</div></div>
+    <!-- Mobile-First Booking Wizard -->
+    <div class="booking-wizard">
+      <!-- Step 1: Service Selection -->
+      <div class="wizard-step active" id="step-service">
+        <div class="step-header">
+          <div class="step-icon">✂️</div>
+          <h3>Choose Service</h3>
+          <p>Select the service you need</p>
         </div>
-        <div class="book-info-item">
-          <div class="bii-icon"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
-          <div><div class="bii-label">Phone / WhatsApp</div><div class="bii-val">+977 980-123-4567</div></div>
+        <div class="service-grid">
+          <div class="service-option" data-service="Haircut & Styling" data-price="500-1200" data-duration="30-45 min">
+            <div class="service-icon">💇</div>
+            <div class="service-info">
+              <div class="service-name">Haircut & Styling</div>
+              <div class="service-price">NPR 500 - 1,200</div>
+              <div class="service-duration">30-45 min</div>
+            </div>
+            <div class="service-check">✓</div>
+          </div>
+          <div class="service-option" data-service="Men's Fade & Crop" data-price="500-800" data-duration="30 min">
+            <div class="service-icon">👨</div>
+            <div class="service-info">
+              <div class="service-name">Men's Fade & Crop</div>
+              <div class="service-price">NPR 500 - 800</div>
+              <div class="service-duration">30 min</div>
+            </div>
+            <div class="service-check">✓</div>
+          </div>
+          <div class="service-option" data-service="Beard Trim & Shaping" data-price="250-400" data-duration="20 min">
+            <div class="service-icon">🧔</div>
+            <div class="service-info">
+              <div class="service-name">Beard Trim & Shaping</div>
+              <div class="service-price">NPR 250 - 400</div>
+              <div class="service-duration">20 min</div>
+            </div>
+            <div class="service-check">✓</div>
+          </div>
+          <div class="service-option" data-service="Balayage & Colouring" data-price="1500-3500" data-duration="2-3 hrs">
+            <div class="service-icon">🎨</div>
+            <div class="service-info">
+              <div class="service-name">Balayage & Colouring</div>
+              <div class="service-price">NPR 1,500 - 3,500</div>
+              <div class="service-duration">2-3 hrs</div>
+            </div>
+            <div class="service-check">✓</div>
+          </div>
+          <div class="service-option" data-service="Keratin & Olaplex" data-price="2500-5000" data-duration="90 min">
+            <div class="service-icon">✨</div>
+            <div class="service-info">
+              <div class="service-name">Keratin & Olaplex</div>
+              <div class="service-price">NPR 2,500 - 5,000</div>
+              <div class="service-duration">90 min</div>
+            </div>
+            <div class="service-check">✓</div>
+          </div>
+          <div class="service-option" data-service="Hair Spa & Scalp" data-price="800-1500" data-duration="60 min">
+            <div class="service-icon">💆</div>
+            <div class="service-info">
+              <div class="service-name">Hair Spa & Scalp</div>
+              <div class="service-price">NPR 800 - 1,500</div>
+              <div class="service-duration">60 min</div>
+            </div>
+            <div class="service-check">✓</div>
+          </div>
         </div>
-        <div class="book-info-item">
-          <div class="bii-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-          <div><div class="bii-label">Hours</div><div class="bii-val">Mon–Sat: 9:00 AM – 8:00 PM<br>Sunday: 10:00 AM – 6:00 PM</div></div>
+        <button class="wizard-next" onclick="nextStep()">Continue →</button>
+      </div>
+
+      <!-- Step 2: Barber Selection -->
+      <div class="wizard-step" id="step-barber">
+        <div class="step-header">
+          <div class="step-icon">👨‍💼</div>
+          <h3>Choose Barber</h3>
+          <p>Select your preferred stylist</p>
+        </div>
+        <div class="barber-grid">
+          <div class="barber-option" data-barber="Ramesh">
+            <div class="barber-avatar">R</div>
+            <div class="barber-info">
+              <div class="barber-name">Ramesh</div>
+              <div class="barber-specialty">Master Stylist</div>
+              <div class="barber-rating">⭐ 4.9</div>
+            </div>
+            <div class="barber-check">✓</div>
+          </div>
+          <div class="barber-option" data-barber="Sita">
+            <div class="barber-avatar">S</div>
+            <div class="barber-info">
+              <div class="barber-name">Sita</div>
+              <div class="barber-specialty">Color Specialist</div>
+              <div class="barber-rating">⭐ 4.8</div>
+            </div>
+            <div class="barber-check">✓</div>
+          </div>
+          <div class="barber-option" data-barber="Any Available">
+            <div class="barber-avatar">?</div>
+            <div class="barber-info">
+              <div class="barber-name">Any Available</div>
+              <div class="barber-specialty">First available stylist</div>
+              <div class="barber-rating">⭐ 4.7</div>
+            </div>
+            <div class="barber-check">✓</div>
+          </div>
+        </div>
+        <div class="wizard-nav">
+          <button class="wizard-back" onclick="prevStep()">← Back</button>
+          <button class="wizard-next" onclick="nextStep()">Continue →</button>
         </div>
       </div>
-      <div class="book-right">
-        <div id="booking-form">
-          <div class="form-head">Fill in your details</div>
-          <div class="f-row2">
-            <div class="fg"><label class="fl">Your Name</label><input class="fi" id="f-name" placeholder="Ram Sharma" required></div>
-            <div class="fg"><label class="fl">WhatsApp Number</label><input class="fi" id="f-phone" placeholder="98XXXXXXXX" required></div>
+
+      <!-- Step 3: Date & Time Selection -->
+      <div class="wizard-step" id="step-datetime">
+        <div class="step-header">
+          <div class="step-icon">📅</div>
+          <h3>Pick Date & Time</h3>
+          <p>Choose your preferred appointment time</p>
+        </div>
+        <div class="datetime-picker">
+          <div class="date-picker">
+            <h4>Select Date</h4>
+            <div class="calendar" id="calendar"></div>
           </div>
-          <div class="fg"><label class="fl">Select Service</label>
-            <select class="fsel" id="f-service">
-              <option value="">— Choose a service —</option>
-              <option>Haircut &amp; Styling — NPR 500+</option>
-              <option>Men's Fade &amp; Crop — NPR 500+</option>
-              <option>Beard Trim — NPR 250+</option>
-              <option>Balayage &amp; Colouring — NPR 1,500+</option>
-              <option>Keratin &amp; Olaplex — NPR 2,500+</option>
-              <option>Hair Straightening — NPR 3,000+</option>
-              <option>Hair Spa &amp; Scalp — NPR 800+</option>
-              <option>Blowout &amp; Styling — NPR 700+</option>
-            </select>
-          </div>
-          <div class="f-row2">
-            <div class="fg"><label class="fl">Preferred Date</label><input class="fi" type="date" id="f-date" required></div>
-            <div class="fg"><label class="fl">Preferred Time</label>
-              <select class="fsel" id="f-time">
-                <option value="">— Pick time —</option>
-                <option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
-                <option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option>
-                <option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option><option>6:00 PM</option>
-              </select>
+          <div class="time-picker">
+            <h4>Available Times</h4>
+            <div class="time-slots" id="time-slots">
+              <p style="color:var(--ink3);font-size:.8rem">Select a date first</p>
             </div>
           </div>
-          <div class="fg"><label class="fl">Notes (optional)</label><input class="fi" id="f-notes" placeholder="e.g. reference photo, skin fade, first visit..."></div>
-          <button class="book-submit" onclick="submitBooking()">
-            Confirm Appointment
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
         </div>
-        <div id="book-success">
-          <svg viewBox="0 0 24 24" style="width:54px;height:54px;stroke:var(--grn);fill:none;stroke-width:1.5;margin:0 auto 1.3rem;display:block"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          <div style="font-family:var(--fd);font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:.7rem">You're all booked!</div>
-          <p style="font-family:var(--fn);font-size:.85rem;color:var(--ink3);line-height:1.75;margin-bottom:2rem;max-width:320px;margin-left:auto;margin-right:auto">We'll confirm via WhatsApp within the hour. See you at Glow Kathmandu in Thamel!</p>
-          <button class="btn-primary" onclick="resetBooking()">Book Another Service</button>
+        <div class="wizard-nav">
+          <button class="wizard-back" onclick="prevStep()">← Back</button>
+          <button class="wizard-next" onclick="nextStep()">Continue →</button>
         </div>
+      </div>
+
+      <!-- Step 4: Contact Details -->
+      <div class="wizard-step" id="step-contact">
+        <div class="step-header">
+          <div class="step-icon">📱</div>
+          <h3>Your Details</h3>
+          <p>We'll confirm via WhatsApp</p>
+        </div>
+        <div class="contact-form">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="booking-name" placeholder="Ram Sharma" required>
+          </div>
+          <div class="form-group">
+            <label>WhatsApp Number</label>
+            <input type="tel" id="booking-phone" placeholder="98XXXXXXXX" required>
+          </div>
+          <div class="form-group">
+            <label>Notes (optional)</label>
+            <textarea id="booking-notes" placeholder="Any special requests or reference photos..."></textarea>
+          </div>
+        </div>
+        <div class="booking-summary">
+          <h4>Booking Summary</h4>
+          <div class="summary-item"><span>Service:</span> <span id="summary-service">-</span></div>
+          <div class="summary-item"><span>Barber:</span> <span id="summary-barber">-</span></div>
+          <div class="summary-item"><span>Date:</span> <span id="summary-date">-</span></div>
+          <div class="summary-item"><span>Time:</span> <span id="summary-time">-</span></div>
+        </div>
+        <div class="wizard-nav">
+          <button class="wizard-back" onclick="prevStep()">← Back</button>
+          <button class="wizard-submit" onclick="submitBooking()">Confirm Booking</button>
+        </div>
+      </div>
+
+      <!-- Step 5: Confirmation -->
+      <div class="wizard-step" id="step-confirmation">
+        <div class="confirmation">
+          <div class="confirm-icon">✅</div>
+          <h3>Booking Confirmed!</h3>
+          <p>We'll send you a WhatsApp confirmation within the hour. See you at Glow Kathmandu!</p>
+          <div class="booking-details">
+            <div class="detail-item"><strong>Service:</strong> <span id="confirm-service"></span></div>
+            <div class="detail-item"><strong>Barber:</strong> <span id="confirm-barber"></span></div>
+            <div class="detail-item"><strong>Date & Time:</strong> <span id="confirm-datetime"></span></div>
+            <div class="detail-item"><strong>Name:</strong> <span id="confirm-name"></span></div>
+          </div>
+          <button class="btn-primary" onclick="resetWizard()">Book Another Service</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="booking-progress">
+      <div class="progress-step active" data-step="1">
+        <div class="step-number">1</div>
+        <div class="step-label">Service</div>
+      </div>
+      <div class="progress-step" data-step="2">
+        <div class="step-number">2</div>
+        <div class="step-label">Barber</div>
+      </div>
+      <div class="progress-step" data-step="3">
+        <div class="step-number">3</div>
+        <div class="step-label">Date & Time</div>
+      </div>
+      <div class="progress-step" data-step="4">
+        <div class="step-number">4</div>
+        <div class="step-label">Details</div>
+      </div>
+      <div class="progress-step" data-step="5">
+        <div class="step-number">5</div>
+        <div class="step-label">Confirm</div>
       </div>
     </div>
   </div>
@@ -919,41 +1133,209 @@ function prevSlide() { goSlide(slide - 1); }
 const autoT = setInterval(nextSlide, 5200);
 track.addEventListener('mouseenter', () => clearInterval(autoT));
 
-// Booking — saves to localStorage so Admin Dashboard receives it
+// Booking Wizard Variables
+let currentStep = 1;
+let selectedService = null;
+let selectedBarber = null;
+let selectedDate = null;
+let selectedTime = null;
+
+// Wizard Navigation
+function nextStep() {
+  if (!validateCurrentStep()) return;
+
+  const steps = document.querySelectorAll('.wizard-step');
+  steps[currentStep - 1].classList.remove('active');
+  currentStep++;
+  steps[currentStep - 1].classList.add('active');
+  updateProgress();
+
+  if (currentStep === 3) initializeCalendar();
+  if (currentStep === 4) updateSummary();
+}
+
+function prevStep() {
+  const steps = document.querySelectorAll('.wizard-step');
+  steps[currentStep - 1].classList.remove('active');
+  currentStep--;
+  steps[currentStep - 1].classList.add('active');
+  updateProgress();
+}
+
+function updateProgress() {
+  document.querySelectorAll('.progress-step').forEach((step, index) => {
+    step.classList.toggle('active', index + 1 <= currentStep);
+  });
+}
+
+function validateCurrentStep() {
+  switch(currentStep) {
+    case 1:
+      return selectedService !== null;
+    case 2:
+      return selectedBarber !== null;
+    case 3:
+      return selectedDate !== null && selectedTime !== null;
+    case 4:
+      const name = document.getElementById('booking-name').value.trim();
+      const phone = document.getElementById('booking-phone').value.trim();
+      return name && phone;
+    default:
+      return true;
+  }
+}
+
+// Service Selection
+document.querySelectorAll('.service-option').forEach(option => {
+  option.addEventListener('click', function() {
+    document.querySelectorAll('.service-option').forEach(opt => opt.classList.remove('selected'));
+    this.classList.add('selected');
+    selectedService = {
+      name: this.dataset.service,
+      price: this.dataset.price,
+      duration: this.dataset.duration
+    };
+  });
+});
+
+// Barber Selection
+document.querySelectorAll('.barber-option').forEach(option => {
+  option.addEventListener('click', function() {
+    document.querySelectorAll('.barber-option').forEach(opt => opt.classList.remove('selected'));
+    this.classList.add('selected');
+    selectedBarber = this.dataset.barber;
+  });
+});
+
+// Calendar Functionality
+function initializeCalendar() {
+  const calendar = document.getElementById('calendar');
+  calendar.innerHTML = '';
+
+  const today = new Date();
+  const nextWeek = new Date(today);
+  nextWeek.setDate(today.getDate() + 14);
+
+  for (let date = new Date(today); date <= nextWeek; date.setDate(date.getDate() + 1)) {
+    const dayEl = document.createElement('div');
+    dayEl.className = 'calendar-day';
+    dayEl.textContent = date.getDate();
+    dayEl.dataset.date = date.toISOString().split('T')[0];
+
+    if (date.toDateString() === today.toDateString()) {
+      dayEl.classList.add('today');
+    }
+
+    dayEl.addEventListener('click', function() {
+      document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+      this.classList.add('selected');
+      selectedDate = this.dataset.date;
+      generateTimeSlots();
+    });
+
+    calendar.appendChild(dayEl);
+  }
+}
+
+function generateTimeSlots() {
+  const timeSlots = document.getElementById('time-slots');
+  timeSlots.innerHTML = '';
+
+  const times = [
+    '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
+    '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM'
+  ];
+
+  // Simulate some booked slots (in real app, this would come from backend)
+  const bookedSlots = ['10:00 AM', '2:00 PM', '4:00 PM'];
+
+  times.forEach(time => {
+    const slotEl = document.createElement('div');
+    slotEl.className = `time-slot ${bookedSlots.includes(time) ? 'booked' : 'available'}`;
+    slotEl.textContent = time;
+
+    if (!bookedSlots.includes(time)) {
+      slotEl.addEventListener('click', function() {
+        document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedTime = time;
+      });
+    }
+
+    timeSlots.appendChild(slotEl);
+  });
+}
+
+function updateSummary() {
+  document.getElementById('summary-service').textContent = selectedService?.name || '-';
+  document.getElementById('summary-barber').textContent = selectedBarber || '-';
+  document.getElementById('summary-date').textContent = selectedDate ? new Date(selectedDate).toLocaleDateString() : '-';
+  document.getElementById('summary-time').textContent = selectedTime || '-';
+}
+
+// Booking Submission
 function submitBooking() {
-  const n = document.getElementById('f-name').value.trim();
-  const p = document.getElementById('f-phone').value.trim();
-  const s = document.getElementById('f-service').value;
-  const d = document.getElementById('f-date').value;
-  const t = document.getElementById('f-time').value;
-  const notes = document.getElementById('f-notes') ? document.getElementById('f-notes').value.trim() : '';
-  if (!n || !p || !s || !d || !t) { alert('Please fill in all required fields.'); return; }
+  if (!validateCurrentStep()) return;
+
+  const name = document.getElementById('booking-name').value.trim();
+  const phone = document.getElementById('booking-phone').value.trim();
+  const notes = document.getElementById('booking-notes').value.trim();
 
   // Save to localStorage → Admin Dashboard reads from same key
   const KEY = 'glow_bookings_v1';
   const arr = JSON.parse(localStorage.getItem(KEY) || '[]');
   arr.unshift({
     id: Date.now(),
-    name: n, phone: p,
-    service: s.split(' — ')[0].split(' &amp; ').join(' & '),
-    date: d, time: t, notes: notes,
+    name: name,
+    phone: phone,
+    service: selectedService.name,
+    barber: selectedBarber,
+    date: selectedDate,
+    time: selectedTime,
+    notes: notes,
     status: 'new',
     created: new Date().toISOString().split('T')[0]
   });
   localStorage.setItem(KEY, JSON.stringify(arr));
 
-  document.getElementById('booking-form').style.display = 'none';
-  document.getElementById('book-success').style.display = 'block';
+  // Show confirmation
+  document.querySelectorAll('.wizard-step').forEach(step => step.classList.remove('active'));
+  document.getElementById('step-confirmation').classList.add('active');
+  updateProgress();
+
+  // Update confirmation details
+  document.getElementById('confirm-service').textContent = selectedService.name;
+  document.getElementById('confirm-barber').textContent = selectedBarber;
+  document.getElementById('confirm-datetime').textContent = `${new Date(selectedDate).toLocaleDateString()} at ${selectedTime}`;
+  document.getElementById('confirm-name').textContent = name;
+
+  // Show toast notification
   const toast = document.getElementById('toast');
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 4200);
 }
-function resetBooking() {
-  document.getElementById('booking-form').style.display = 'block';
-  document.getElementById('book-success').style.display = 'none';
-  ['f-name','f-phone','f-notes'].forEach(id => document.getElementById(id).value = '');
-  ['f-service','f-time'].forEach(id => document.getElementById(id).selectedIndex = 0);
-  document.getElementById('f-date').value = '';
+
+function resetWizard() {
+  currentStep = 1;
+  selectedService = null;
+  selectedBarber = null;
+  selectedDate = null;
+  selectedTime = null;
+
+  // Reset all selections
+  document.querySelectorAll('.service-option, .barber-option, .calendar-day, .time-slot').forEach(el => {
+    el.classList.remove('selected');
+  });
+
+  // Reset form
+  document.getElementById('booking-name').value = '';
+  document.getElementById('booking-phone').value = '';
+  document.getElementById('booking-notes').value = '';
+
+  // Reset to first step
+  document.querySelectorAll('.wizard-step').forEach(step => step.classList.remove('active'));
+  document.getElementById('step-service').classList.add('active');
+  updateProgress();
 }
 
 // Lightbox

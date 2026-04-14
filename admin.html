@@ -52,6 +52,70 @@ img{display:block}
 .sb-website-btn:hover{background:var(--bg4);border-color:var(--red);color:var(--red)}
 .sb-website-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
 
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: -220px;
+    z-index: 1000;
+    transition: left 0.3s ease;
+  }
+  .sidebar.open { left: 0; }
+  .main { margin-left: 0; }
+  .topbar { padding-left: 1rem; }
+  .content { padding: 1rem 0.5rem; }
+  .metrics { grid-template-columns: 1fr; gap: 0.5rem; }
+  .card-head { padding: 0.8rem 0.8rem; flex-wrap: wrap; gap: 0.5rem; }
+  .card-title { font-size: 0.85rem; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { min-width: 600px; }
+  .modal { width: 95vw; max-width: none; }
+  .m-row { grid-template-columns: 1fr; gap: 0.5rem; }
+  .sched { padding: 0.8rem 0.8rem; }
+  .slot { gap: 0.5rem; }
+  .slot-time { min-width: 45px; font-size: 0.6rem; }
+  .slot-card { padding: 0.5rem 0.6rem; }
+  .slot-name { font-size: 0.7rem; }
+  .slot-svc { font-size: 0.6rem; }
+  .bar-chart { padding: 0 0.8rem 1rem; height: 100px; }
+  .mini-item { padding: 0.6rem 0.8rem; }
+  .rev-svc-item { padding: 0.6rem 0.8rem; }
+  .wa-box { margin: 0 0.8rem 1rem; padding: 0.9rem 1rem; }
+  .wa-msg { padding: 0.7rem 0.8rem; }
+  .acts { gap: 0.2rem; }
+  .act { width: 24px; height: 24px; }
+  .act svg { width: 10px; height: 10px; }
+  .pill { font-size: 0.5rem; padding: 0.15rem 0.45rem; }
+  .stag { font-size: 0.65rem; padding: 0.15rem 0.4rem; }
+  .search { width: 120px; }
+  .search input { width: 100px; }
+  .ftab { font-size: 0.55rem; padding: 0.3rem 0.6rem; }
+  .mc { padding: 1rem 1.1rem; }
+  .mc-num { font-size: 1.5rem; }
+  .mc-lbl { font-size: 0.6rem; }
+  .tb-left { gap: 0.5rem; }
+  .page-title { font-size: 1rem; }
+  .tb-date { font-size: 0.65rem; padding: 0.2rem 0.5rem; }
+  .tb-refresh { width: 28px; height: 28px; }
+  .tb-refresh svg { width: 12px; height: 12px; }
+  .new-badge { font-size: 0.6rem; padding: 0.2rem 0.55rem; }
+}
+
+/* MOBILE MENU TOGGLE */
+@media (max-width: 768px) {
+  .topbar .tb-left::before {
+    content: '☰';
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    color: var(--ink3);
+    transition: color 0.2s;
+  }
+  .topbar .tb-left::before:hover {
+    color: var(--red);
+  }
+}
+
 /* MAIN */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
 
@@ -737,6 +801,52 @@ window.addEventListener('storage', e=>{
 
 // ── INIT ────────────────────────────────────────────────────────────────
 refreshAll();
+
+// Mobile menu toggle
+document.addEventListener('DOMContentLoaded', function() {
+  const sidebar = document.querySelector('.sidebar');
+  const menuToggle = document.querySelector('.tb-left::before');
+
+  // Create mobile menu toggle button
+  const toggleBtn = document.createElement('button');
+  toggleBtn.innerHTML = '☰';
+  toggleBtn.style.cssText = `
+    display: none;
+    font-size: 1.2rem;
+    background: none;
+    border: none;
+    color: var(--ink3);
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-right: 0.5rem;
+    transition: color 0.2s;
+  `;
+  toggleBtn.onmouseover = () => toggleBtn.style.color = 'var(--red)';
+  toggleBtn.onmouseout = () => toggleBtn.style.color = 'var(--ink3)';
+  toggleBtn.onclick = () => sidebar.classList.toggle('open');
+
+  // Add toggle button to topbar
+  document.querySelector('.tb-left').prepend(toggleBtn);
+
+  // Show/hide toggle button based on screen size
+  function checkMobile() {
+    if (window.innerWidth <= 768) {
+      toggleBtn.style.display = 'block';
+      // Close sidebar when clicking outside on mobile
+      document.addEventListener('click', function(e) {
+        if (!sidebar.contains(e.target) && !toggleBtn.contains(e.target) && sidebar.classList.contains('open')) {
+          sidebar.classList.remove('open');
+        }
+      });
+    } else {
+      toggleBtn.style.display = 'none';
+      sidebar.classList.remove('open');
+    }
+  }
+
+  window.addEventListener('resize', checkMobile);
+  checkMobile();
+});
 </script>
 </body>
 </html>
